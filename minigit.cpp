@@ -121,7 +121,7 @@ void MiniGit::log()
         current_commit = get_commit_parent(current_commit);
     }
 }
-
+// Inside your minigit.cpp file, locate or add this function:
 void MiniGit::branch(const std::string &branch_name)
 {
     if (!is_initialized())
@@ -129,17 +129,30 @@ void MiniGit::branch(const std::string &branch_name)
         std::cerr << "Error: Not a MiniGit repository." << std::endl;
         return;
     }
-    std::string current_commit = get_head_commit_hash();
-    if (current_commit.empty())
+
+    // You cannot create a branch if there are no commits yet
+    std::string current_commit_hash = get_head_commit_hash();
+    if (current_commit_hash.empty())
     {
         std::cerr << "Error: Cannot create branch. No commits yet." << std::endl;
         return;
     }
-    // Note: This also needs to be corrected for full path similar to commit()
-    Utils::writeFile(REFS_DIR + "/" + branch_name, current_commit);
-    std::cout << "Branch '" << branch_name << "' created." << std::endl;
-}
 
+    // Construct the full path for the new branch file within .minigit/refs/
+    std::string branch_file_path = REFS_DIR + "/" + branch_name;
+
+    // Check if a branch with this name already exists
+    if (std::filesystem::exists(branch_file_path))
+    {
+        std::cerr << "Error: A branch named '" << branch_name << "' already exists." << std::endl;
+        return;
+    }
+
+    // Write the current commit hash into the new branch file
+    Utils::writeFile(branch_file_path, current_commit_hash);
+
+    std::cout << "Branch '" << branch_name << "' created, pointing to " << current_commit_hash.substr(0, 7) << std::endl;
+}
 void MiniGit::checkout(const std::string &name)
 {
     if (!is_initialized())
