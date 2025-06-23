@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #include "minigit.h"
 #include <iostream>
 #include <vector>
@@ -25,6 +26,37 @@ int main(int argc, char *argv[])
     }
 
     std::string command = args[0];
+=======
+#include <iostream>
+#include <vector>
+#include <string>
+#include "minigit.h"
+
+void print_usage()
+{
+    std::cout << "Usage: minigit <command> [<args>]\n"
+              << "\n"
+              << "Available commands:\n"
+              << "  init\t\tCreate an empty MiniGit repository\n"
+              << "  add <file>\tAdd file contents to the index\n"
+              << "  commit -m <msg>\tRecord changes to the repository\n"
+              << "  log\t\tShow the commit logs\n"
+              << "  branch <name>\tCreate a new branch\n"
+              << "  checkout <branch/commit>\tSwitch branches or restore working tree files\n"
+              << "  merge <branch>\tJoin two development histories together\n";
+}
+
+int main(int argc, char *argv[])
+{
+    if (argc < 2)
+    {
+        print_usage();
+        return 1;
+    }
+
+    std::string command = argv[1];
+    MiniGit mg;
+>>>>>>> 4f8bf363fc285507403972efdc9ff5c491a62063
 
     if (command == "init")
     {
@@ -32,6 +64,7 @@ int main(int argc, char *argv[])
     }
     else if (command == "add")
     {
+<<<<<<< HEAD
         if (args.size() < 2)
         {
             std::cerr << "Usage: ./minigit add <filepath>" << std::endl;
@@ -53,6 +86,23 @@ int main(int argc, char *argv[])
                                                   return a.empty() ? b : a + " " + b;
                                               });
         mg.commit(message);
+=======
+        if (argc < 3)
+        {
+            std::cerr << "Error: No file specified for 'add'." << std::endl;
+            return 1;
+        }
+        mg.add(argv[2]);
+    }
+    else if (command == "commit")
+    {
+        if (argc < 4 || std::string(argv[2]) != "-m")
+        {
+            std::cerr << "Error: Commit message required. Usage: minigit commit -m <message>" << std::endl;
+            return 1;
+        }
+        mg.commit(argv[3]);
+>>>>>>> 4f8bf363fc285507403972efdc9ff5c491a62063
     }
     else if (command == "log")
     {
@@ -60,6 +110,7 @@ int main(int argc, char *argv[])
     }
     else if (command == "branch")
     {
+<<<<<<< HEAD
         if (args.size() < 2)
         {
             std::cerr << "Usage: ./minigit branch <branch-name>" << std::endl;
@@ -84,10 +135,40 @@ int main(int argc, char *argv[])
             return 1;
         }
         mg.merge(args[1]);
+=======
+        if (argc < 3)
+        {
+            std::cerr << "Error: Branch name required." << std::endl;
+            return 1;
+        }
+        mg.branch(argv[2]);
+    }
+    else if (command == "checkout")
+    {
+        if (argc < 3)
+        {
+            std::cerr << "Error: Branch or commit hash required." << std::endl;
+            return 1;
+        }
+        mg.checkout(argv[2]);
+    }
+    else if (command == "merge")
+    {
+        if (argc < 3)
+        {
+            std::cerr << "Error: Branch to merge is required." << std::endl;
+            return 1;
+        }
+        mg.merge(argv[2]);
+>>>>>>> 4f8bf363fc285507403972efdc9ff5c491a62063
     }
     else
     {
         std::cerr << "Unknown command: " << command << std::endl;
+<<<<<<< HEAD
+=======
+        print_usage();
+>>>>>>> 4f8bf363fc285507403972efdc9ff5c491a62063
         return 1;
     }
 

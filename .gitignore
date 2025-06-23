@@ -1,3 +1,21 @@
+<<<<<<< HEAD
 minigit
 .minigit/
 *.o
+=======
+# Ignore MiniGit's internal repository directory
+.minigit/
+
+# Ignore compiled executable and object files
+minigit
+*.o
+*.exe
+
+# You might also want to ignore any temporary editor files or other build artifacts
+*~
+*.tmp
+# Add other files you don't want to track, like example user files
+fileA.txt
+fileD.txt
+file_test_checkout.txt
+>>>>>>> 4f8bf363fc285507403972efdc9ff5c491a62063
