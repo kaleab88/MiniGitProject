@@ -1,4 +1,5 @@
-<<<<<<< HEAD
+# --- RESOLVED Makefile ---
+
 # Compiler
 CXX = g++
 
@@ -6,60 +7,38 @@ CXX = g++
 CXXSTD = c++17
 
 # Compiler flags
-CXXFLAGS = -std=$(CXXSTD) -Wall -Wextra -pedantic
-
-# Linker flags for OpenSSL and filesystem
-LDFLAGS = -lssl -lcrypto -lz -lstdc++fs
-=======
-# Makefile for MiniGit
-
-# Compiler
-CXX = g++
-
-# Compiler flags
 # -std=c++17 is needed for std::filesystem
 # -Wall enables all warnings
-# -g enables debugging information
-CXXFLAGS = -std=c++17 -Wall -g
+# -Wextra enables extra warnings
+# -pedantic enforces strict C++ standard compliance
+CXXFLAGS = -std=$(CXXSTD) -Wall -Wextra -pedantic
 
-# Linker flags for OpenSSL and Zlib
-LDFLAGS = -lssl -lcrypto -lz
->>>>>>> 4f8bf363fc285507403972efdc9ff5c491a62063
+# Linker flags for OpenSSL, Zlib, and filesystem
+LDFLAGS = -lssl -lcrypto -lz -lstdc++fs
 
 # Source files
 SRCS = main.cpp minigit.cpp utils.cpp
 
-<<<<<<< HEAD
-# Object files
+# Object files (generated from source files)
 OBJS = $(SRCS:.cpp=.o)
 
 # Executable name
 TARGET = minigit
 
-# Default target
+# Default target: builds the executable
 all: $(TARGET)
 
+# Rule to link object files into the executable
 $(TARGET): $(OBJS)
 	$(CXX) $(OBJS) -o $(TARGET) $(LDFLAGS)
 
+# Rule to compile each .cpp file into a .o object file
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
+# Clean rule: removes all generated object files and the executable
 clean:
 	rm -f $(OBJS) $(TARGET)
-	rm -rf .minigit # Remove the .minigit directory for a clean slate
+	rm -rf .minigit # Also remove the .minigit directory for a clean repository state
 
 .PHONY: all clean
-=======
-# Executable name
-TARGET = minigit
-
-all: $(TARGET)
-
-$(TARGET): $(SRCS)
-	$(CXX) $(CXXFLAGS) -o $(TARGET) $(SRCS) $(LDFLAGS)
-
-# Optional: Add a clean rule for convenience
-clean:
-	rm -f $(TARGET)
->>>>>>> 4f8bf363fc285507403972efdc9ff5c491a62063
